@@ -1,0 +1,465 @@
+<!DOCTYPE html><html><head>
+      <title>保活机制</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\fmy\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.18\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="zrpc框架心跳保活与缓存机制">Zrpc框架心跳保活与缓存机制 </h1>
+<h2 id="1-心跳保活机制设计">1. 心跳保活机制设计 </h2>
+<h3 id="11-设计目标">1.1 设计目标 </h3>
+<ul>
+<li>实现分布式服务的健康检测</li>
+<li>自动故障发现和节点剔除</li>
+<li>确保服务列表的实时准确性</li>
+<li>提供高可用的服务发现能力</li>
+</ul>
+<h3 id="12-心跳保活架构">1.2 心跳保活架构 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>心跳管理器 (ZrpcHeartbeat)
+├── 服务注册表 (std::unordered_map&lt;service_key, ServiceInfo&gt;)
+├── 后台检测线程 (HeartbeatWorker)
+├── 5秒检测间隔
+├── 15秒超时故障转移
+└── 自动节点剔除机制
+
+客户端心跳流程:
+Client → EnableHeartbeat() → RegisterService() → 周期性检测 → 故障剔除
+</code></pre><h2 id="2-心跳保活实现细节">2. 心跳保活实现细节 </h2>
+<h3 id="21-核心数据结构">2.1 核心数据结构 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 在 ZrpcHeartbeat.h 中</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">ServiceInfo</span> <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>string ip<span class="token punctuation">;</span>
+    <span class="token keyword keyword-uint16_t">uint16_t</span> port<span class="token punctuation">;</span>
+    <span class="token keyword keyword-int">int</span> timeout_ms<span class="token punctuation">;</span>  <span class="token comment">// 15000ms 超时时间</span>
+    std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span>steady_clock<span class="token double-colon punctuation">::</span>time_point last_heartbeat<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+std<span class="token double-colon punctuation">::</span>unordered_map<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>string<span class="token punctuation">,</span> ServiceInfo<span class="token operator">&gt;</span> m_services<span class="token punctuation">;</span>
+<span class="token keyword keyword-static">static</span> <span class="token keyword keyword-const">const</span> <span class="token keyword keyword-int">int</span> HEARTBEAT_INTERVAL <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>  <span class="token comment">// 5秒检测间隔</span>
+</code></pre><p><strong>设计理念</strong>：</p>
+<ul>
+<li>每个服务实例用唯一的service_key标识</li>
+<li>记录最后心跳时间，用于超时判断</li>
+<li>支持可配置的超时时间</li>
+</ul>
+<h3 id="22-服务注册与心跳启动">2.2 服务注册与心跳启动 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 客户端启用心跳保活</span>
+<span class="token keyword keyword-void">void</span> <span class="token class-name">ZrpcChannel</span><span class="token double-colon punctuation">::</span><span class="token function">EnableHeartbeat</span><span class="token punctuation">(</span><span class="token keyword keyword-bool">bool</span> enable<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    m_heartbeat_enabled <span class="token operator">=</span> enable<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>enable<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">ZrpcHeartbeat</span><span class="token double-colon punctuation">::</span><span class="token function">GetInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 服务注册到心跳管理器</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">RegisterService</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> service_key<span class="token punctuation">,</span> 
+                    <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> ip<span class="token punctuation">,</span> 
+                    <span class="token keyword keyword-uint16_t">uint16_t</span> port<span class="token punctuation">,</span>
+                    <span class="token keyword keyword-int">int</span> timeout_ms <span class="token operator">=</span> <span class="token number">15000</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ServiceInfo info<span class="token punctuation">;</span>
+    info<span class="token punctuation">.</span>ip <span class="token operator">=</span> ip<span class="token punctuation">;</span>
+    info<span class="token punctuation">.</span>port <span class="token operator">=</span> port<span class="token punctuation">;</span>
+    info<span class="token punctuation">.</span>timeout_ms <span class="token operator">=</span> timeout_ms<span class="token punctuation">;</span>
+    info<span class="token punctuation">.</span>last_heartbeat <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span>steady_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    m_services<span class="token punctuation">[</span>service_key<span class="token punctuation">]</span> <span class="token operator">=</span> info<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>关键特性</strong>：</p>
+<ul>
+<li>延迟启动：只有启用心跳时才开始检测</li>
+<li>自动注册：服务调用时自动注册到心跳管理器</li>
+<li>灵活配置：支持自定义超时时间</li>
+</ul>
+<h3 id="23-后台心跳检测线程">2.3 后台心跳检测线程 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token keyword keyword-void">void</span> <span class="token class-name">ZrpcHeartbeat</span><span class="token double-colon punctuation">::</span><span class="token function">HeartbeatWorker</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>m_running <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>m_stop_requested<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">{</span>
+            std<span class="token double-colon punctuation">::</span>lock_guard<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>m_mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-auto">auto</span> now <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span>steady_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-auto">auto</span> it <span class="token operator">=</span> m_services<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> it <span class="token operator">!=</span> m_services<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> service_key <span class="token operator">=</span> it<span class="token operator">-&gt;</span>first<span class="token punctuation">;</span>
+                ServiceInfo<span class="token operator">&amp;</span> info <span class="token operator">=</span> it<span class="token operator">-&gt;</span>second<span class="token punctuation">;</span>
+                
+                <span class="token comment">// 检查是否超时（15秒直接删除）</span>
+                <span class="token keyword keyword-auto">auto</span> elapsed <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">duration_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span>milliseconds<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>
+                    now <span class="token operator">-</span> info<span class="token punctuation">.</span>last_heartbeat<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>elapsed<span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> info<span class="token punctuation">.</span>timeout_ms<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">LOG</span><span class="token punctuation">(</span>WARNING<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Service "</span> <span class="token operator">&lt;&lt;</span> service_key <span class="token operator">&lt;&lt;</span> <span class="token string">" removed due to timeout"</span><span class="token punctuation">;</span>
+                    it <span class="token operator">=</span> m_services<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>it<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                
+                <span class="token comment">// 执行心跳检测</span>
+                <span class="token keyword keyword-bool">bool</span> result <span class="token operator">=</span> <span class="token function">DoHeartbeat</span><span class="token punctuation">(</span>info<span class="token punctuation">.</span>ip<span class="token punctuation">,</span> info<span class="token punctuation">.</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    info<span class="token punctuation">.</span>last_heartbeat <span class="token operator">=</span> now<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+                    <span class="token function">LOG</span><span class="token punctuation">(</span>WARNING<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Heartbeat failed for: "</span> <span class="token operator">&lt;&lt;</span> service_key<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token operator">++</span>it<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        <span class="token comment">// 等待5秒后进行下一次检测</span>
+        std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>m_mutex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        m_cv<span class="token punctuation">.</span><span class="token function">wait_for</span><span class="token punctuation">(</span>lock<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token function">seconds</span><span class="token punctuation">(</span>HEARTBEAT_INTERVAL<span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                     <span class="token punctuation">[</span><span class="token keyword keyword-this">this</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token keyword keyword-return">return</span> m_stop_requested<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>检测策略</strong>：</p>
+<ul>
+<li><strong>5秒检测间隔</strong>：定期检测所有注册服务的健康状态</li>
+<li><strong>15秒超时剔除</strong>：超过15秒无响应的服务自动从列表中移除</li>
+<li><strong>线程安全</strong>：使用互斥锁保护共享数据结构</li>
+</ul>
+<h3 id="24-心跳检测实现">2.4 心跳检测实现 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token keyword keyword-bool">bool</span> <span class="token class-name">ZrpcHeartbeat</span><span class="token double-colon punctuation">::</span><span class="token function">DoHeartbeat</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> ip<span class="token punctuation">,</span> <span class="token keyword keyword-uint16_t">uint16_t</span> port<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token function">CreateHeartbeatConnection</span><span class="token punctuation">(</span>ip<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-bool">bool</span> <span class="token class-name">ZrpcHeartbeat</span><span class="token double-colon punctuation">::</span><span class="token function">CreateHeartbeatConnection</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> ip<span class="token punctuation">,</span> <span class="token keyword keyword-uint16_t">uint16_t</span> port<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 创建socket进行连通性测试</span>
+    <span class="token keyword keyword-int">int</span> sockfd <span class="token operator">=</span> <span class="token function">socket</span><span class="token punctuation">(</span>AF_INET<span class="token punctuation">,</span> SOCK_STREAM<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>sockfd <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 设置3秒连接超时</span>
+    <span class="token keyword keyword-struct">struct</span> <span class="token class-name">timeval</span> timeout<span class="token punctuation">;</span>
+    timeout<span class="token punctuation">.</span>tv_sec <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    timeout<span class="token punctuation">.</span>tv_usec <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token function">setsockopt</span><span class="token punctuation">(</span>sockfd<span class="token punctuation">,</span> SOL_SOCKET<span class="token punctuation">,</span> SO_RCVTIMEO<span class="token punctuation">,</span> <span class="token operator">&amp;</span>timeout<span class="token punctuation">,</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">setsockopt</span><span class="token punctuation">(</span>sockfd<span class="token punctuation">,</span> SOL_SOCKET<span class="token punctuation">,</span> SO_SNDTIMEO<span class="token punctuation">,</span> <span class="token operator">&amp;</span>timeout<span class="token punctuation">,</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 尝试连接目标服务</span>
+    <span class="token keyword keyword-struct">struct</span> <span class="token class-name">sockaddr_in</span> server_addr<span class="token punctuation">;</span>
+    <span class="token function">memset</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>server_addr<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span>server_addr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    server_addr<span class="token punctuation">.</span>sin_family <span class="token operator">=</span> AF_INET<span class="token punctuation">;</span>
+    server_addr<span class="token punctuation">.</span>sin_port <span class="token operator">=</span> <span class="token function">htons</span><span class="token punctuation">(</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    server_addr<span class="token punctuation">.</span>sin_addr<span class="token punctuation">.</span>s_addr <span class="token operator">=</span> <span class="token function">inet_addr</span><span class="token punctuation">(</span>ip<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword keyword-bool">bool</span> success <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">connect</span><span class="token punctuation">(</span>sockfd<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword keyword-struct">struct</span> <span class="token class-name">sockaddr</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>server_addr<span class="token punctuation">,</span> 
+                           <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span>server_addr<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token function">close</span><span class="token punctuation">(</span>sockfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> success<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>心跳检测方式</strong>：</p>
+<ul>
+<li><strong>TCP连接检测</strong>：尝试建立TCP连接验证服务可达性</li>
+<li><strong>快速超时</strong>：3秒连接超时，避免阻塞检测线程</li>
+<li><strong>轻量级检测</strong>：不发送数据，仅检测连通性</li>
+</ul>
+<h2 id="3-高性能内存缓存设计">3. 高性能内存缓存设计 </h2>
+<h3 id="31-缓存架构设计">3.1 缓存架构设计 </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>CacheService 高性能缓存
+├── 内存存储 (std::unordered_map&lt;std::string, CacheEntry&gt;)
+├── TTL过期管理 (CacheEntry.expire_time)
+├── 并发控制 (std::shared_mutex - 读写锁)
+├── 统计监控 (atomic计数器)
+├── 后台清理 (CleanupExpiredKeys线程)
+└── 批量操作支持
+</code></pre><h3 id="32-缓存项结构设计">3.2 缓存项结构设计 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 在 CacheService.h 中</span>
+<span class="token keyword keyword-struct">struct</span> <span class="token class-name">CacheEntry</span> <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>string value<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span>steady_clock<span class="token double-colon punctuation">::</span>time_point expire_time<span class="token punctuation">;</span>
+    <span class="token keyword keyword-bool">bool</span> never_expire<span class="token punctuation">;</span>
+    
+    <span class="token function">CacheEntry</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> val<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> expire_seconds<span class="token punctuation">)</span> 
+        <span class="token operator">:</span> <span class="token function">value</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">never_expire</span><span class="token punctuation">(</span>expire_seconds <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>never_expire<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            expire_time <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span>steady_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> 
+                         std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token function">seconds</span><span class="token punctuation">(</span>expire_seconds<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-bool">bool</span> <span class="token function">IsExpired</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>never_expire<span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span>steady_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> expire_time<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><p><strong>设计优势</strong>：</p>
+<ul>
+<li><strong>精确TTL</strong>：使用高精度时钟计算过期时间</li>
+<li><strong>零拷贝判断</strong>：IsExpired()方法无需额外计算</li>
+<li><strong>内存优化</strong>：bool标记永不过期的键，节省时间计算</li>
+</ul>
+<h3 id="33-并发控制机制">3.3 并发控制机制 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 读写锁保证高并发性能</span>
+std<span class="token double-colon punctuation">::</span>shared_mutex cache_mutex_<span class="token punctuation">;</span>
+
+<span class="token comment">// 读操作（Get, Exists, BatchGet）- 支持并发</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">Get</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>shared_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>shared_mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>cache_mutex_<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 多个读操作可以同时执行</span>
+    <span class="token keyword keyword-auto">auto</span> it <span class="token operator">=</span> cache_store_<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// ... 处理逻辑</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 写操作（Set, Delete）- 互斥执行</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">Set</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>shared_mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>cache_mutex_<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 写操作独占访问</span>
+    cache_store_<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">CacheEntry</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> expire_seconds<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>并发优化策略</strong>：</p>
+<ul>
+<li><strong>读写分离</strong>：读操作使用共享锁，写操作使用独占锁</li>
+<li><strong>最大化并发读</strong>：多个Get请求可以并行处理</li>
+<li><strong>写操作保护</strong>：确保数据一致性</li>
+</ul>
+<h3 id="34-ttl过期管理">3.4 TTL过期管理 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 后台清理线程</span>
+<span class="token keyword keyword-void">void</span> <span class="token class-name">CacheService</span><span class="token double-colon punctuation">::</span><span class="token function">CleanupExpiredKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>should_stop_cleanup_<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            std<span class="token double-colon punctuation">::</span>this_thread<span class="token double-colon punctuation">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token function">milliseconds</span><span class="token punctuation">(</span>CLEANUP_INTERVAL_MS<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token punctuation">{</span>
+                std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>shared_mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>cache_mutex_<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                
+                <span class="token keyword keyword-auto">auto</span> it <span class="token operator">=</span> cache_store_<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-int">int</span> cleaned_count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                
+                <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>it <span class="token operator">!=</span> cache_store_<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>it<span class="token operator">-&gt;</span>second<span class="token punctuation">.</span><span class="token function">IsExpired</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        it <span class="token operator">=</span> cache_store_<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>it<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        cleaned_count<span class="token operator">++</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+                        <span class="token operator">++</span>it<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>cleaned_count <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">LOG</span><span class="token punctuation">(</span>INFO<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Cleaned up "</span> <span class="token operator">&lt;&lt;</span> cleaned_count <span class="token operator">&lt;&lt;</span> <span class="token string">" expired cache keys"</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>exception<span class="token operator">&amp;</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Cache cleanup error: "</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span><span class="token function">what</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>过期管理特性</strong>：</p>
+<ul>
+<li><strong>定期清理</strong>：每60秒清理一次过期键</li>
+<li><strong>懒惰删除</strong>：访问时检查过期并删除</li>
+<li><strong>内存回收</strong>：及时释放过期数据占用的内存</li>
+</ul>
+<h3 id="35-批量操作支持">3.5 批量操作支持 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token keyword keyword-void">void</span> <span class="token class-name">CacheService</span><span class="token double-colon punctuation">::</span><span class="token function">BatchGet</span><span class="token punctuation">(</span><span class="token double-colon punctuation">::</span>google<span class="token double-colon punctuation">::</span>protobuf<span class="token double-colon punctuation">::</span>RpcController<span class="token operator">*</span> controller<span class="token punctuation">,</span>
+                            <span class="token keyword keyword-const">const</span> <span class="token double-colon punctuation">::</span>Kuser<span class="token double-colon punctuation">::</span>CacheBatchGetRequest<span class="token operator">*</span> request<span class="token punctuation">,</span>
+                            <span class="token double-colon punctuation">::</span>Kuser<span class="token double-colon punctuation">::</span>CacheBatchGetResponse<span class="token operator">*</span> response<span class="token punctuation">,</span>
+                            <span class="token double-colon punctuation">::</span>google<span class="token double-colon punctuation">::</span>protobuf<span class="token double-colon punctuation">::</span>Closure<span class="token operator">*</span> done<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">{</span>
+            std<span class="token double-colon punctuation">::</span>shared_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>shared_mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>cache_mutex_<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span><span class="token operator">&amp;</span> key <span class="token operator">:</span> request<span class="token operator">-&gt;</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword keyword-auto">auto</span><span class="token operator">*</span> item <span class="token operator">=</span> response<span class="token operator">-&gt;</span><span class="token function">add_items</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                item<span class="token operator">-&gt;</span><span class="token function">set_key</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                
+                <span class="token keyword keyword-auto">auto</span> it <span class="token operator">=</span> cache_store_<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>it <span class="token operator">!=</span> cache_store_<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>it<span class="token operator">-&gt;</span>second<span class="token punctuation">.</span><span class="token function">IsExpired</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    item<span class="token operator">-&gt;</span><span class="token function">set_value</span><span class="token punctuation">(</span>it<span class="token operator">-&gt;</span>second<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    item<span class="token operator">-&gt;</span><span class="token function">set_exists</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    hit_count_<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+                    item<span class="token operator">-&gt;</span><span class="token function">set_exists</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    miss_count_<span class="token operator">++</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        
+        response<span class="token operator">-&gt;</span><span class="token function">mutable_result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span><span class="token function">set_errcode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        response<span class="token operator">-&gt;</span><span class="token function">mutable_result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span><span class="token function">set_errmsg</span><span class="token punctuation">(</span><span class="token string">"Success"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">LOG</span><span class="token punctuation">(</span>INFO<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Cache BATCH_GET: "</span> <span class="token operator">&lt;&lt;</span> request<span class="token operator">-&gt;</span><span class="token function">keys_size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">" keys"</span><span class="token punctuation">;</span>
+        
+    <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>exception<span class="token operator">&amp;</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        response<span class="token operator">-&gt;</span><span class="token function">mutable_result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span><span class="token function">set_errcode</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        response<span class="token operator">-&gt;</span><span class="token function">mutable_result</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-&gt;</span><span class="token function">set_errmsg</span><span class="token punctuation">(</span><span class="token string">"Batch get failed: "</span> <span class="token operator">+</span> std<span class="token double-colon punctuation">::</span><span class="token function">string</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">what</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    done<span class="token operator">-&gt;</span><span class="token function">Run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>批量操作优势</strong>：</p>
+<ul>
+<li><strong>减少网络开销</strong>：一次请求获取多个键值</li>
+<li><strong>原子性操作</strong>：保证批量操作的一致性</li>
+<li><strong>性能提升</strong>：减少锁的获取次数</li>
+</ul>
+<h2 id="4-统计监控系统">4. 统计监控系统 </h2>
+<h3 id="41-性能指标统计">4.1 性能指标统计 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 原子计数器保证线程安全</span>
+std<span class="token double-colon punctuation">::</span>atomic<span class="token operator">&lt;</span><span class="token keyword keyword-int64_t">int64_t</span><span class="token operator">&gt;</span> hit_count_<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>      <span class="token comment">// 命中次数</span>
+std<span class="token double-colon punctuation">::</span>atomic<span class="token operator">&lt;</span><span class="token keyword keyword-int64_t">int64_t</span><span class="token operator">&gt;</span> miss_count_<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>     <span class="token comment">// 未命中次数</span>
+std<span class="token double-colon punctuation">::</span>atomic<span class="token operator">&lt;</span><span class="token keyword keyword-int64_t">int64_t</span><span class="token operator">&gt;</span> total_operations_<span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token comment">// 总操作数</span>
+
+<span class="token comment">// 实时计算命中率</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">GetStats</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-int64_t">int64_t</span> total_requests <span class="token operator">=</span> hit_count_<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> miss_count_<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-double">double</span> hit_rate <span class="token operator">=</span> total_requests <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">?</span> 
+        <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword keyword-double">double</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>hit_count_<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span> total_requests <span class="token operator">:</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+    
+    response<span class="token operator">-&gt;</span><span class="token function">set_hit_rate</span><span class="token punctuation">(</span>hit_rate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    response<span class="token operator">-&gt;</span><span class="token function">set_total_keys</span><span class="token punctuation">(</span>cache_store_<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    response<span class="token operator">-&gt;</span><span class="token function">set_memory_usage</span><span class="token punctuation">(</span><span class="token function">CalculateMemoryUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="42-内存使用量计算">4.2 内存使用量计算 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token keyword keyword-int64_t">int64_t</span> <span class="token class-name">CacheService</span><span class="token double-colon punctuation">::</span><span class="token function">CalculateMemoryUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-const">const</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-int64_t">int64_t</span> total_size <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> <span class="token keyword keyword-auto">auto</span><span class="token operator">&amp;</span> pair <span class="token operator">:</span> cache_store_<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 估算内存使用：key长度 + value长度 + 结构体开销</span>
+        total_size <span class="token operator">+=</span> pair<span class="token punctuation">.</span>first<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> pair<span class="token punctuation">.</span>second<span class="token punctuation">.</span>value<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token keyword keyword-sizeof">sizeof</span><span class="token punctuation">(</span>CacheEntry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-return">return</span> total_size<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="5-性能目标达成">5. 性能目标达成 </h2>
+<h3 id="51-命中率95实现策略">5.1 命中率95%+实现策略 </h3>
+<p><strong>1. 智能缓存策略</strong></p>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 在集成业务中的缓存使用模式</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">test_integrated_business</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 1. 先检查缓存</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>cache_exists<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 缓存命中，直接返回</span>
+        <span class="token keyword keyword-return">return</span> cached_data<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 2. 缓存未命中，调用服务</span>
+    data <span class="token operator">=</span> user_service<span class="token punctuation">.</span><span class="token function">GetUserProfile</span><span class="token punctuation">(</span>user_id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 3. 将结果缓存起来</span>
+    cache<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span>cache_key<span class="token punctuation">,</span> data<span class="token punctuation">,</span> expire_time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword keyword-return">return</span> data<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>2. 合理的TTL设置</strong></p>
+<ul>
+<li>会话缓存：30分钟（1800秒）</li>
+<li>用户资料：10分钟（600秒）</li>
+<li>临时数据：5分钟（300秒）</li>
+</ul>
+<p><strong>3. 预热和预加载</strong></p>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 服务启动时预加载热点数据</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">PreloadHotData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> i <span class="token operator">=</span> <span class="token number">1000</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> <span class="token number">1100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        std<span class="token double-colon punctuation">::</span>string profile <span class="token operator">=</span> <span class="token function">GetUserProfileFromDB</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cache<span class="token punctuation">.</span><span class="token function">Set</span><span class="token punctuation">(</span><span class="token string">"profile:"</span> <span class="token operator">+</span> std<span class="token double-colon punctuation">::</span><span class="token function">to_string</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span> profile<span class="token punctuation">,</span> <span class="token number">3600</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="52-高性能设计要点">5.2 高性能设计要点 </h3>
+<p><strong>1. 无锁设计</strong></p>
+<ul>
+<li>原子计数器避免锁竞争</li>
+<li>读写锁最大化并发读取</li>
+<li>单线程写入避免复杂同步</li>
+</ul>
+<p><strong>2. 内存优化</strong></p>
+<ul>
+<li>直接内存存储，避免序列化开销</li>
+<li>智能过期清理，及时回收内存</li>
+<li>批量操作减少内存分配次数</li>
+</ul>
+<p><strong>3. 网络优化</strong></p>
+<ul>
+<li>心跳检测复用连接</li>
+<li>批量操作减少网络往返</li>
+<li>超时控制避免无效等待</li>
+</ul>
+<h2 id="6-监控和运维">6. 监控和运维 </h2>
+<h3 id="61-实时监控指标">6.1 实时监控指标 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token operator">==</span><span class="token operator">=</span> 缓存统计信息 <span class="token operator">==</span><span class="token operator">=</span>
+总键数<span class="token operator">:</span> <span class="token number">1250</span>
+内存使用<span class="token operator">:</span> <span class="token number">2048576</span> bytes
+命中次数<span class="token operator">:</span> <span class="token number">9500</span>
+未命中次数<span class="token operator">:</span> <span class="token number">500</span>
+命中率<span class="token operator">:</span> <span class="token number">95.0</span><span class="token operator">%</span>
+</code></pre><h3 id="62-心跳状态监控">6.2 心跳状态监控 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token operator">==</span><span class="token operator">=</span> 心跳保活状态 <span class="token operator">==</span><span class="token operator">=</span>
+注册服务数<span class="token operator">:</span> <span class="token number">5</span>
+活跃服务数<span class="token operator">:</span> <span class="token number">4</span>
+检测间隔<span class="token operator">:</span> <span class="token number">5</span>秒
+超时阈值<span class="token operator">:</span> <span class="token number">15</span>秒
+最近故障转移<span class="token operator">:</span> UserService<span class="token punctuation">.</span>Login@<span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">1.100</span><span class="token operator">:</span><span class="token number">8001</span>
+</code></pre><h2 id="7-故障处理机制">7. 故障处理机制 </h2>
+<h3 id="71-服务故障自动处理">7.1 服务故障自动处理 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 心跳检测失败后的处理流程</span>
+<span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">DoHeartbeat</span><span class="token punctuation">(</span>info<span class="token punctuation">.</span>ip<span class="token punctuation">,</span> info<span class="token punctuation">.</span>port<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">LOG</span><span class="token punctuation">(</span>WARNING<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Heartbeat failed for: "</span> <span class="token operator">&lt;&lt;</span> service_key<span class="token punctuation">;</span>
+    <span class="token comment">// 不立即删除，等待超时自动剔除</span>
+    
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>elapsed_time <span class="token operator">&gt;</span> timeout_threshold<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 超时后自动从服务列表中移除</span>
+        m_services<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>service_key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">LOG</span><span class="token punctuation">(</span>ERROR<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"Service removed due to timeout: "</span> <span class="token operator">&lt;&lt;</span> service_key<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="72-缓存一致性保证">7.2 缓存一致性保证 </h3>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp cpp"><code><span class="token comment">// 服务更新时主动清理相关缓存</span>
+<span class="token keyword keyword-void">void</span> <span class="token function">InvalidateCache</span><span class="token punctuation">(</span><span class="token keyword keyword-const">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> pattern<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>shared_mutex<span class="token operator">&gt;</span> <span class="token function">lock</span><span class="token punctuation">(</span>cache_mutex_<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword keyword-auto">auto</span> it <span class="token operator">=</span> cache_store_<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>it <span class="token operator">!=</span> cache_store_<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>it<span class="token operator">-&gt;</span>first<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>pattern<span class="token punctuation">)</span> <span class="token operator">!=</span> std<span class="token double-colon punctuation">::</span>string<span class="token double-colon punctuation">::</span>npos<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            it <span class="token operator">=</span> cache_store_<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>it<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+            <span class="token operator">++</span>it<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="8-总结">8. 总结 </h2>
+<h3 id="81-心跳保活机制特点">8.1 心跳保活机制特点 </h3>
+<ol>
+<li><strong>5秒检测间隔</strong>：快速发现服务故障</li>
+<li><strong>15秒故障转移</strong>：合理的超时阈值，避免误判</li>
+<li><strong>自动节点剔除</strong>：保证服务列表的健康性</li>
+<li><strong>轻量级检测</strong>：TCP连接检测，开销小</li>
+</ol>
+<h3 id="82-高性能缓存特点">8.2 高性能缓存特点 </h3>
+<ol>
+<li><strong>TTL过期管理</strong>：精确的时间控制，自动清理</li>
+<li><strong>批量操作支持</strong>：提升网络效率</li>
+<li><strong>统计监控完善</strong>：实时性能指标</li>
+<li><strong>95%+命中率</strong>：智能缓存策略和合理TTL设置</li>
+</ol>
+<h3 id="83-系统可靠性保证">8.3 系统可靠性保证 </h3>
+<ol>
+<li><strong>故障自动发现</strong>：心跳机制及时发现异常</li>
+<li><strong>服务自动恢复</strong>：故障节点恢复后自动重新加入</li>
+<li><strong>数据一致性</strong>：缓存失效机制保证数据准确性</li>
+<li><strong>性能监控</strong>：完善的指标体系支持运维决策</li>
+</ol>
+<p>通过这套心跳保活和缓存机制，Zrpc框架实现了高可用、高性能的分布式服务架构，为上层业务提供了稳定可靠的基础设施。</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

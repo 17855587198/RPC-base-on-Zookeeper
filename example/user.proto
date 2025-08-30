@@ -1,0 +1,125 @@
+syntax="proto3";
+
+package Kuser;//声明代码所在的包(相当于C++中的namespace ),因为通过protoc可以对该包内容生成相应的C++代码
+
+option cc_generic_services=true;
+
+message ResultCode{
+    int32 errcode=1;
+    bytes errmsg=2;
+}
+message LoginRequest{
+    bytes name=1;
+    bytes pwd=2;
+}
+message LoginResponse{
+    ResultCode result=1;
+    bool success=2;
+}
+message RegisterRequest{
+    uint32 id=1;
+    bytes name=2;
+    bytes pwd=3;
+}
+message RegisterResponse{
+    ResultCode result=1;
+    bool success=2;
+}
+//增加求和模块，实现1...n的求和
+message SumToNRequest
+{
+    int32 n=1;//设置求和的边界
+}
+
+message SumToNResponse{
+    ResultCode result=1;
+    int32 sum=2;//求和结果
+
+}
+
+//进行服务的注册
+service UserServiceRpc{
+    rpc Login(LoginRequest) returns(LoginResponse);
+    rpc Register(RegisterRequest) returns(RegisterResponse);
+    rpc SumtoN(SumToNRequest) returns(SumToNResponse);
+    rpc GetUserProfile(GetUserProfileRequest) returns(GetUserProfileResponse);  // 新增用户资料查询
+}
+
+// ========== 用户资料查询消息定义 ==========
+message GetUserProfileRequest {
+    uint32 user_id = 1;
+}
+
+message GetUserProfileResponse {
+    ResultCode result = 1;
+    bytes profile_data = 2;  // JSON格式的用户资料
+    bool from_cache = 3;     // 是否来自缓存
+}
+
+// ========== 分布式缓存服务 ==========
+service CacheServiceRpc {
+    rpc Set(CacheSetRequest) returns(ResultCode);           // 设置缓存
+    rpc Get(CacheGetRequest) returns(CacheGetResponse);     // 获取缓存
+    rpc Delete(CacheDeleteRequest) returns(ResultCode);     // 删除缓存
+    rpc Exists(CacheExistsRequest) returns(CacheExistsResponse);  // 检查键是否存在
+    rpc BatchGet(CacheBatchGetRequest) returns(CacheBatchGetResponse);  // 批量获取
+    rpc GetStats(CacheStatsRequest) returns(CacheStatsResponse);  // 获取统计信息
+}
+// ========== 分布式缓存服务消息定义 ==========
+message CacheSetRequest {
+    bytes key = 1;
+    bytes value = 2;
+    int32 expire_seconds = 3;  // 过期时间（秒），0表示永不过期
+}
+
+message CacheGetRequest {
+    bytes key = 1;
+}
+
+message CacheGetResponse {
+    ResultCode result = 1;
+    bytes value = 2;
+    bool exists = 3;
+    int64 expire_time = 4;  // 过期时间戳
+}
+
+message CacheDeleteRequest {
+    bytes key = 1;
+}
+
+message CacheBatchGetRequest {
+    repeated bytes keys = 1;
+}
+
+message CacheItem {
+    bytes key = 1;
+    bytes value = 2;
+    bool exists = 3;
+}
+
+message CacheBatchGetResponse {
+    ResultCode result = 1;
+    repeated CacheItem items = 2;
+}
+
+message CacheExistsRequest {
+    bytes key = 1;
+}
+
+message CacheExistsResponse {
+    ResultCode result = 1;
+    bool exists = 2;
+}
+
+message CacheStatsRequest {
+    // 空请求，获取缓存统计信息
+}
+
+message CacheStatsResponse {
+    ResultCode result = 1;
+    int64 total_keys = 2;
+    int64 memory_usage = 3;
+    int64 hit_count = 4;
+    int64 miss_count = 5;
+    double hit_rate = 6;
+}

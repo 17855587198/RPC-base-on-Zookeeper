@@ -1,0 +1,15 @@
+syntax="proto3";
+package Krpc;
+
+message RpcHeader{
+    bytes service_name=1;
+    bytes method_name=2;
+    uint32 args_size=3;
+}
+
+/*
+定义 RPC 调用的协议格式（头部信息），如服务名、方法名、参数大小;
+RpcHeader 的字段会被填充到网络数据包头部，
+用于客户端和服务端识别请求目标。
+*/
+
